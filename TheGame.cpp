@@ -12,72 +12,88 @@
 #define currentBlock this->fifoQueue.first->tetromino
 
 
-
-TheGame::TheGame(int RESULT, bool GAMEOVER, float TIMER, float DELAY, bool SENDNEWBLOCK):
+template <typename T>
+TheGame<T>::TheGame(T RESULT, bool GAMEOVER, float TIMER, float DELAY, bool SENDNEWBLOCK):
     result(RESULT), gameOver(GAMEOVER), timer(TIMER), delay(DELAY), sendNewBlock(SENDNEWBLOCK)
     {
         for(int i=0; i<FIELD_HEIGHT*FIELD_WIDTH; ++i)
             this->fieldColors[i]=9;//nie odpowiada zadnemu kolorowi
 }
+template <typename T>
+TheGame<T>::~TheGame(){ }
 
-TheGame::~TheGame(){ }
-
-bool TheGame::get_gameOver() const{
+template <typename T>
+bool TheGame<T>::get_gameOver() const{
     return gameOver; }
 
-void TheGame::set_gameOver( bool gameOverValue ) { gameOver = gameOverValue; }
+template <typename T>
+void TheGame<T>::set_gameOver( bool gameOverValue ) { gameOver = gameOverValue; }
 
-int TheGame::get_result() const { return result; }
+template <typename T>
+int TheGame<T>::get_result() const { return result; }
 
-float TheGame::get_timer() const{
+template <typename T>
+float TheGame<T>::get_timer() const{
     return timer; }
 
-float TheGame::get_delay() const{
+template <typename T>
+float TheGame<T>::get_delay() const{
     return delay; }
 
-void TheGame::increase_timer(float timeValue){
+template <typename T>
+void TheGame<T>::increase_timer(float timeValue){
     this->timer+=timeValue;
 }
 
-bool TheGame::increase_delay(){
+template <typename T>
+bool TheGame<T>::increase_delay(){
     this->delay-=0.3;
     return true;
 }
 
-void TheGame::increase_speed() {
+template <typename T>
+void TheGame<T>::increase_speed() {
     this->delay-=0.07;
 }
-void TheGame::decrease_delay(){
+
+template <typename T>
+void TheGame<T>::decrease_delay(){
     this->delay+=0.1;
 }
 
-void TheGame::reset_delay() {
+template <typename T>
+void TheGame<T>::reset_delay() {
     this->delay=0.3;
 }
 
-void TheGame::set_delay(float tmpDelay) {
+template <typename T>
+template <typename F>
+void TheGame<T>::set_delay(F tmpDelay) {
     this->delay=tmpDelay;
 }
 
-void TheGame::reset_timer(){
+template <typename T>
+void TheGame<T>::reset_timer(){
     this->timer=0.0;
 }
 
-void TheGame::set_sendNewBlock(bool sendNewBlockValue){
+template <typename T>
+void TheGame<T>::set_sendNewBlock(bool sendNewBlockValue){
     this->sendNewBlock=sendNewBlockValue;
 }
 
-bool TheGame::get_sendNewBlock() {
+template <typename T>
+bool TheGame<T>::get_sendNewBlock() {
     return sendNewBlock;
 }
 
-
-Tetromino TheGame::get_currentBlock() {
+template <typename T>
+Tetromino TheGame<T>::get_currentBlock() {
     return this->fifoQueue.last->tetromino;
 }
 
-
-bool TheGame::checkLine(int nrCheckedLine)
+template <typename T>
+bool TheGame<T>::checkLine(int nrCheckedLine)
 {
     bool isFull= true;
     for (int i=0; i<FIELD_WIDTH; ++i)
@@ -89,7 +105,8 @@ bool TheGame::checkLine(int nrCheckedLine)
 }
 
 
-void TheGame::destroyField(int begginingDestroy, int endDestroy)
+template <typename T>
+void TheGame<T>::destroyField(int begginingDestroy, int endDestroy)
 {
     int difference=begginingDestroy-endDestroy+1;
     int tmpTabField[FIELD_WIDTH*FIELD_HEIGHT]={0};
@@ -110,8 +127,8 @@ void TheGame::destroyField(int begginingDestroy, int endDestroy)
 
 
 
-
-void TheGame::checkField()
+template <typename T>
+void TheGame<T>::checkField()
 {
     int begginingDestroy;
     int endDestroy;
@@ -133,56 +150,61 @@ void TheGame::checkField()
     }
 }
 
-
-void TheGame::rotate_currentBlock(){
+template <typename T>
+void TheGame<T>::rotate_currentBlock(){
     currentBlock.rotate_block();
 }
 
 
-
-int TheGame::get_currentFirstCageLocationx(){
+template <typename T>
+int TheGame<T>::get_currentFirstCageLocationx(){
     return currentBlock.firstCageLocationx;
 }
 
-int TheGame::get_currentFirstCageLocationy(){
+template <typename T>
+int TheGame<T>::get_currentFirstCageLocationy(){
     return currentBlock.firstCageLocationy;
 }
 
-void TheGame::move_currentBlock(int newFirstCageLocationx, int newFirstCageLocationy) {
+template <typename T>
+void TheGame<T>::move_currentBlock(int newFirstCageLocationx, int newFirstCageLocationy) {
     currentBlock.move_block(newFirstCageLocationx, newFirstCageLocationy);
 }
 
-bool TheGame::doesCurrentBlockFit() {
+template <typename T>
+bool TheGame<T>::doesCurrentBlockFit() {
     return currentBlock.does_block_fit();
 }
 
-void TheGame::push_backFifo(Node* pAfter, int FIRSTCAGELOCX, int FIRSTCAGELOCY, int blockSymbolCounter, int blockColorNumber) {
+template <typename T>
+void TheGame<T>::push_backFifo(Node* pAfter, int FIRSTCAGELOCX, int FIRSTCAGELOCY, int blockSymbolCounter, int blockColorNumber) {
     this->fifoQueue.pushBack(pAfter, FIRSTCAGELOCX, FIRSTCAGELOCY, blockSymbolCounter, blockColorNumber);
 }
 
 
-int TheGame::get_currentBlock_shape_values(int i, int j) {
+template <typename T>
+int TheGame<T>::get_currentBlock_shape_values(int i, int j) {
     return currentBlock.shape[j*TETROMINO_TAB_SIZE+i];
-
 }
 
 
-
-int TheGame::get_currentBlockColorNumber() {
+template <typename T>
+int TheGame<T>::get_currentBlockColorNumber() {
     return currentBlock.blockColorNumber;
 }
 
-void TheGame::pop_backFifo() {
+template <typename T>
+void TheGame<T>::pop_backFifo() {
     this->fifoQueue.popBack();
 }
 
-
-int TheGame::get_fieldColorsValues(int i, int j) {
+template <typename T>
+int TheGame<T>::get_fieldColorsValues(int i, int j) {
     return fieldColors[j*FIELD_WIDTH+i];
 }
 
-
-bool TheGame::stop_currentBlock() {
+template <typename T>
+bool TheGame<T>::stop_currentBlock() {
     int tmpFirstCageLocationy = currentBlock.get_firstCageLocationy();
     move_currentBlock(currentBlock.get_firstCageLocationx(), currentBlock.get_firstCageLocationy() + 1);
 
@@ -195,8 +217,8 @@ bool TheGame::stop_currentBlock() {
     }
 }
 
-
-void TheGame::add_currentBlock_to_field() {
+template <typename T>
+void TheGame<T>::add_currentBlock_to_field() {
     if( this->stop_currentBlock() ) {
         currentBlock.add_block_to_field();
         this->sendNewBlock = true;

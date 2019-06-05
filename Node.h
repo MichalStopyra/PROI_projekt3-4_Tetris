@@ -24,6 +24,7 @@ public:
 
 
     friend class FifoQueue;
+    template <typename T>
     friend class TheGame;
 };
 

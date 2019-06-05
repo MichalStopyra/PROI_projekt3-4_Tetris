@@ -27,7 +27,7 @@ public:
 //ilosc elementow w kolejce
     int sizeFifo();
 
-
+template <typename T>
 friend class TheGame;
 };
 #endif //FIFOQUEUE_H

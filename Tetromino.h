@@ -40,6 +40,7 @@ public:
 
     static int get_field_values(int i, int j);
 
+    template <typename T>
     friend class TheGame;
     friend class Node;
 

@@ -9,25 +9,26 @@
 #include "Node.h"
 #include "FifoQueue.h"
 
-
+template <typename T>
 class TheGame {
 
 private:
     FifoQueue fifoQueue;
-    int result;
+    T result;
     bool gameOver;
     float timer;
     float delay;
     bool sendNewBlock;
-    int fieldColors[FIELD_WIDTH*FIELD_HEIGHT];
+    T fieldColors[FIELD_WIDTH*FIELD_HEIGHT];
 
 
 public:
 
-    TheGame(int=0, bool= false, float=0.0, float=0.3, bool=true);
+    TheGame(T=0, bool= false, float=0.0, float=0.3, bool=true);
     virtual ~TheGame();
 
     bool checkLine(int nrCheckedLine);
+    //!funkcja checkline
     void checkField();
     void destroyField(int begginingDestroy, int endDestroy);
     void display();
@@ -37,7 +38,9 @@ public:
     int get_result() const;
     float get_timer() const;
     float get_delay() const;
-    void set_delay(float tmpDelay);
+
+    template <typename F>
+    void set_delay(F tmpDelay);
 
     void increase_timer(float timeValue);
     bool increase_delay();
@@ -75,3 +78,6 @@ public:
 
 
 #endif //THEGAME_H
+
+
+
